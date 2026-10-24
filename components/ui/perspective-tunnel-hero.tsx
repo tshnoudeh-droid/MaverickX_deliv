@@ -2,6 +2,7 @@
 
 import {
     motion,
+    useScroll,
     useTransform,
     useReducedMotion,
     useMotionValue,
@@ -11,17 +12,16 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 const IMAGES = [
-    { src: "https://cdn.21st.dev/assets/mirror/c3/c3fbd2afa140223999a441b32ed986f61d473930002708df805a81532a326aac.jpg", title: "Chroma I" },
-    { src: "https://cdn.21st.dev/assets/mirror/9d/9d8b2f675a5814476ada3736ce439bcda23c5c389e0ebf9b25d8a0c09f3bbcfe.jpg", title: "Prism III" },
-    { src: "https://cdn.21st.dev/assets/mirror/8b/8bb738bf2f00d7f7ed3c3ec034adb9938ad38f4be4ac191d632a6a11ad525574.jpg", title: "Ether IV" },
-    { src: "https://cdn.21st.dev/assets/mirror/ac/ac5ac700b188d7ef16ee9dab868098b59f15c440db3f71d4e8c03262a3287577.jpg", title: "Quantum V" },
-    { src: "https://cdn.21st.dev/assets/mirror/ef/ef25eff6ce655fba459b3b7e7711524dc92499aa18f6c7dbea9a0fcc56a8f908.jpg", title: "Nebula VI" },
-    { src: "https://cdn.21st.dev/assets/mirror/f2/f28b370a5dcbf76240f1504579c4b05fc0ff0bb990a42aff8dc2f73a5dc46072.jpg", title: "Cyber VII" },
-    { src: "https://cdn.21st.dev/assets/mirror/f2/f26a1eac85704dda924820392dedfb72d51d8261d35354f83b35d683617295f3.jpg", title: "Flux VIII" },
-    { src: "https://cdn.21st.dev/assets/mirror/77/7755d23eaaa0aa5b403343f44afa7a29b2d06d3065fe54c602b14ba01d00f2aa.jpg", title: "Aether IX" },
-    { src: "https://cdn.21st.dev/assets/mirror/65/657317761fe9058a1d43711b13c543a71eb5199b7a5d9abf4c28479674e39cf7.jpg", title: "Chroma X" },
+    { src: "https://cdn.21st.dev/assets/mirror/c3/c3fbd2afa140223999a441b32ed986f61d473930002708df805a81532a326aac.jpg", title: "Deposit I" },
+    { src: "https://cdn.21st.dev/assets/mirror/9d/9d8b2f675a5814476ada3736ce439bcda23c5c389e0ebf9b25d8a0c09f3bbcfe.jpg", title: "Extraction II" },
+    { src: "https://cdn.21st.dev/assets/mirror/8b/8bb738bf2f00d7f7ed3c3ec034adb9938ad38f4be4ac191d632a6a11ad525574.jpg", title: "Refinement III" },
+    { src: "https://cdn.21st.dev/assets/mirror/ac/ac5ac700b188d7ef16ee9dab868098b59f15c440db3f71d4e8c03262a3287577.jpg", title: "Yield IV" },
+    { src: "https://cdn.21st.dev/assets/mirror/ef/ef25eff6ce655fba459b3b7e7711524dc92499aa18f6c7dbea9a0fcc56a8f908.jpg", title: "Supply Chain V" },
+    { src: "https://cdn.21st.dev/assets/mirror/f2/f28b370a5dcbf76240f1504579c4b05fc0ff0bb990a42aff8dc2f73a5dc46072.jpg", title: "Market VI" },
+    { src: "https://cdn.21st.dev/assets/mirror/f2/f26a1eac85704dda924820392dedfb72d51d8261d35354f83b35d683617295f3.jpg", title: "Research VII" },
+    { src: "https://cdn.21st.dev/assets/mirror/77/7755d23eaaa0aa5b403343f44afa7a29b2d06d3065fe54c602b14ba01d00f2aa.jpg", title: "Team VIII" },
+    { src: "https://cdn.21st.dev/assets/mirror/65/657317761fe9058a1d43711b13c543a71eb5199b7a5d9abf4c28479674e39cf7.jpg", title: "MaverickX IX" },
 ];
-
 
 interface TunnelCardData {
     item: { src: string; title: string };
@@ -124,7 +124,7 @@ function TunnelCard({ card, progress, pointer, total, stage }: TunnelCardProps) 
             }}
             className="pointer-events-auto absolute left-1/2 top-1/2 aspect-[4/5] will-change-transform select-none cursor-pointer"
         >
-            <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-neutral-200 dark:bg-neutral-900 shadow-2xl shadow-neutral-950/20 dark:shadow-black/90 ring-1 ring-black/10 dark:ring-white/15 transition-all duration-500 hover:ring-indigo-500/70 dark:hover:ring-indigo-400/70 hover:shadow-indigo-500/25">
+            <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-[var(--mx-canvas-dim)] shadow-2xl shadow-black/20 ring-1 ring-black/10 transition-all duration-500 hover:ring-[var(--mx-accent)]/70 hover:shadow-[var(--mx-accent)]/20">
                 <img
                     src={card.item.src}
                     alt={card.item.title}
@@ -141,8 +141,15 @@ function TunnelCard({ card, progress, pointer, total, stage }: TunnelCardProps) 
     );
 }
 
+/**
+ * Opening act of the immersive experience: a 3D card tunnel whose depth is
+ * driven by real page scroll (via Lenis + Framer's useScroll), not a
+ * wheel-hijacked single screen. The section is tall (300vh of scroll
+ * distance); a sticky inner viewport holds the rendered scene while the
+ * outer height gives the scrollbar somewhere to travel.
+ */
 export default function PerspectiveTunnelHero() {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLDivElement>(null);
     const reduce = useReducedMotion();
 
     const [stage, setStage] = useState<StageDimensions>({
@@ -165,30 +172,15 @@ export default function PerspectiveTunnelHero() {
         return () => window.removeEventListener("resize", updateDimensions);
     }, []);
 
-    // Raw motion value controlled directly by mouse wheel / touch trackpad
-    const rawProgress = useMotionValue(0);
-    const smoothProgress = useSpring(rawProgress, {
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start start", "end end"],
+    });
+    const smoothProgress = useSpring(scrollYProgress, {
         stiffness: 80,
         damping: 30,
         restDelta: 0.0001,
     });
-
-    // Handle wheel scrolling locally inside the 100vh viewport container without page scroll
-    useEffect(() => {
-        const el = containerRef.current;
-        if (!el) return;
-
-        const handleWheel = (e: WheelEvent) => {
-            e.preventDefault();
-            const current = rawProgress.get();
-            const delta = e.deltaY * 0.0008; // Adjust speed of tunnel travel here
-            const next = Math.min(1, Math.max(0, current + delta));
-            rawProgress.set(next);
-        };
-
-        el.addEventListener("wheel", handleWheel, { passive: false });
-        return () => el.removeEventListener("wheel", handleWheel);
-    }, [rawProgress]);
 
     const pointer = useCameraParallax(!reduce);
 
@@ -197,65 +189,66 @@ export default function PerspectiveTunnelHero() {
     const promptOpacity = useTransform(smoothProgress, [0, 0.12], [1, 0]);
 
     return (
-        <div
-            ref={containerRef}
-            className="relative h-[100svh] w-screen overflow-hidden bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-white select-none flex items-center justify-center"
-            style={{
-                perspective: stage.isMobile ? "900px" : "1200px",
-                transformStyle: "preserve-3d",
-            }}
-        >
-            {/* Immersive Background Grid & Glow */}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] dark:bg-[radial-gradient(#1e1b4b_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)] opacity-70 dark:opacity-65" />
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15)_0%,transparent_70%)] dark:bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.2)_0%,transparent_75%)]" />
-
-            {/* Depth Ring Guides */}
-            <div className="pointer-events-none absolute h-[48vmin] w-[48vmin] rounded-full border border-indigo-500/15 dark:border-indigo-400/10" />
-            <div className="pointer-events-none absolute h-[76vmin] w-[76vmin] rounded-full border border-dashed border-neutral-300/60 dark:border-white/10" />
-
-            {/* Central Anchor Typography */}
-            <motion.div
-                style={{ scale: titleScale, opacity: titleOpacity }}
-                className="pointer-events-none z-0 flex flex-col items-center text-center px-6 max-w-xl"
-            >
-                <p className="text-xs font-mono uppercase tracking-[0.4em] text-indigo-600 dark:text-indigo-400 mb-4">
-                    Warp Drive Sequence
-                </p>
-                <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tighter leading-[0.9] bg-gradient-to-b from-neutral-950 via-neutral-800 to-neutral-400 dark:from-white dark:via-white dark:to-white/40 bg-clip-text text-transparent">
-                    INTO THE
-                    <br />
-                    ETHER.
-                </h1>
-                <p className="mt-4 max-w-[36ch] text-sm sm:text-base font-light text-neutral-600 dark:text-neutral-400">
-                    Scroll your trackpad or mouse wheel to fly through the spatial 3D corridor.
-                </p>
-            </motion.div>
-
-            {/* Scroll Prompt */}
-            <motion.div
-                style={{ opacity: promptOpacity }}
-                className="pointer-events-none absolute bottom-8 z-20 flex flex-col items-center gap-2 text-xs font-mono uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400"
-            >
-                <span>Scroll to Explore</span>
-                <div className="h-6 w-px bg-gradient-to-b from-indigo-500 to-transparent" />
-            </motion.div>
-
-            {/* 3D Z-Space Plane */}
+        <section ref={sectionRef} className="relative h-[300vh] bg-[var(--mx-canvas)]">
             <div
-                className="absolute inset-0 pointer-events-none"
-                style={{ transformStyle: "preserve-3d" }}
+                className="sticky top-0 h-[100svh] w-full overflow-hidden text-[var(--mx-ink)] select-none flex items-center justify-center"
+                style={{
+                    perspective: stage.isMobile ? "900px" : "1200px",
+                    transformStyle: "preserve-3d",
+                }}
             >
-                {TUNNEL_CARDS.map((card, i) => (
-                    <TunnelCard
-                        key={i}
-                        card={card}
-                        progress={smoothProgress}
-                        pointer={pointer}
-                        total={TUNNEL_CARDS.length}
-                        stage={stage}
-                    />
-                ))}
+                {/* Immersive Background Grid & Glow */}
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#d9d6cc_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)] opacity-70" />
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,var(--mx-accent)_0%,transparent_70%)] opacity-[0.08]" />
+
+                {/* Depth Ring Guides */}
+                <div className="pointer-events-none absolute h-[48vmin] w-[48vmin] rounded-full border border-[var(--mx-accent)]/15" />
+                <div className="pointer-events-none absolute h-[76vmin] w-[76vmin] rounded-full border border-dashed border-[var(--mx-ink)]/10" />
+
+                {/* Central Anchor Typography */}
+                <motion.div
+                    style={{ scale: titleScale, opacity: titleOpacity }}
+                    className="pointer-events-none z-0 flex flex-col items-center text-center px-6 max-w-xl"
+                >
+                    <p className="text-xs font-mono uppercase tracking-[0.4em] text-[var(--mx-accent)] mb-4">
+                        MaverickX — TKS Deliverable
+                    </p>
+                    <h1 className="font-serif italic text-5xl sm:text-7xl md:text-8xl font-medium tracking-tight leading-[0.95] text-[var(--mx-ink)]">
+                        Germanium,
+                        <br />
+                        extracted.
+                    </h1>
+                    <p className="mt-4 max-w-[36ch] text-sm sm:text-base font-light text-[var(--mx-faint)]">
+                        Scroll to move through our research and proposed solution.
+                    </p>
+                </motion.div>
+
+                {/* Scroll Prompt */}
+                <motion.div
+                    style={{ opacity: promptOpacity }}
+                    className="pointer-events-none absolute bottom-8 z-20 flex flex-col items-center gap-2 text-xs font-mono uppercase tracking-[0.3em] text-[var(--mx-faint)]"
+                >
+                    <span>Scroll to Explore</span>
+                    <div className="h-6 w-px bg-gradient-to-b from-[var(--mx-accent)] to-transparent" />
+                </motion.div>
+
+                {/* 3D Z-Space Plane */}
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ transformStyle: "preserve-3d" }}
+                >
+                    {TUNNEL_CARDS.map((card, i) => (
+                        <TunnelCard
+                            key={i}
+                            card={card}
+                            progress={smoothProgress}
+                            pointer={pointer}
+                            total={TUNNEL_CARDS.length}
+                            stage={stage}
+                        />
+                    ))}
+                </div>
             </div>
-        </div>
+        </section>
     );
 }

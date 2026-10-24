@@ -2,33 +2,25 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex flex-col flex-1 items-center justify-center bg-[var(--mx-canvas)] font-sans">
       <main className="flex flex-1 w-full max-w-xl flex-col items-center justify-center gap-8 px-6 text-center">
         <div className="space-y-2">
-          <p className="text-xs font-mono uppercase tracking-[0.3em] text-zinc-500">
+          <p className="text-xs font-mono uppercase tracking-[0.3em] text-[var(--mx-faint)]">
             MaverickX — TKS Deliverable
           </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-zinc-50">
-            Hero prototypes
+          <h1 className="font-serif italic text-3xl font-medium tracking-tight text-[var(--mx-ink)]">
+            The experience
           </h1>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            Pick a direction for the real hero. Placeholder content throughout.
+          <p className="text-sm text-[var(--mx-faint)]">
+            Placeholder content throughout — research and copy to be swapped in.
           </p>
         </div>
-        <div className="flex flex-col gap-3 w-full sm:flex-row">
-          <Link
-            href="/demo/tunnel"
-            className="flex-1 rounded-full bg-black px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
-          >
-            Perspective tunnel
-          </Link>
-          <Link
-            href="/demo/sculpture"
-            className="flex-1 rounded-full border border-zinc-300 px-5 py-3 text-sm font-medium text-black transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-white dark:hover:bg-zinc-900"
-          >
-            Liquid sculpture
-          </Link>
-        </div>
+        <Link
+          href="/demo/tunnel"
+          className="rounded-full bg-[var(--mx-ink)] px-7 py-3.5 text-sm font-medium text-[var(--mx-canvas)] transition-opacity hover:opacity-85"
+        >
+          Enter
+        </Link>
       </main>
     </div>
   );
