@@ -31,7 +31,7 @@ export default function SolutionSection() {
                     transition={{ duration: 0.6 }}
                     className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]"
                 >
-                    03 — Our Solution
+                    04 — Our Solution
                 </motion.p>
                 <motion.h2
                     initial={{ opacity: 0, y: 16 }}

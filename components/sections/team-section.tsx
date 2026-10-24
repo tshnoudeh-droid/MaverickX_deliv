@@ -26,7 +26,7 @@ export default function TeamSection() {
                     transition={{ duration: 0.6 }}
                     className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]"
                 >
-                    04 — Team
+                    05 — Team
                 </motion.p>
                 <motion.h2
                     initial={{ opacity: 0, y: 16 }}

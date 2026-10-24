@@ -12,7 +12,7 @@ export default function ClosingCta() {
                 transition={{ duration: 0.6 }}
                 className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]"
             >
-                05 — Let&apos;s Talk
+                06 — Let&apos;s Talk
             </motion.p>
             <motion.h2
                 initial={{ opacity: 0, y: 16 }}
