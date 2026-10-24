@@ -59,10 +59,25 @@ export default function EnergyGate() {
             return;
         }
 
+        // Lock both html and body — some browsers scroll the body even when
+        // only the root element is set to overflow:hidden.
         const html = document.documentElement;
-        const prevOverflow = html.style.overflow;
+        const body = document.body;
+        const prevHtmlOverflow = html.style.overflow;
+        const prevBodyOverflow = body.style.overflow;
         html.style.overflow = "hidden";
+        body.style.overflow = "hidden";
         lenis?.stop();
+
+        // Lenis keeps its own internal scroll target and can drift from 0
+        // while "stopped" (it still tracks input, it just doesn't render).
+        // Force both the real scroll position and Lenis's target back to
+        // the top on every tick while the gate is up, so there is nothing
+        // to snap to once it unlocks.
+        const pinToTop = () => {
+            window.scrollTo(0, 0);
+            lenis?.scrollTo(0, { immediate: true, force: true });
+        };
 
         let rafId = 0;
         let last = performance.now();
@@ -72,8 +87,11 @@ export default function EnergyGate() {
             explodingRef.current = true;
             setExploding(true);
             sessionStorage.setItem(STORAGE_KEY, "1");
+            pinToTop();
             window.setTimeout(() => {
-                html.style.overflow = prevOverflow;
+                pinToTop();
+                html.style.overflow = prevHtmlOverflow;
+                body.style.overflow = prevBodyOverflow;
                 lenis?.start();
                 setDone(true);
             }, 900);
@@ -82,13 +100,16 @@ export default function EnergyGate() {
         const tick = (now: number) => {
             const dt = now - last;
             last = now;
-            if (!explodingRef.current && now < activeUntil) {
-                const next = Math.min(1, progressRef.current + dt / CHARGE_DURATION_MS);
-                progressRef.current = next;
-                setProgress(next);
-                if (next >= 1) trigger();
+            if (!explodingRef.current) {
+                if (window.scrollY !== 0) pinToTop();
+                if (now < activeUntil) {
+                    const next = Math.min(1, progressRef.current + dt / CHARGE_DURATION_MS);
+                    progressRef.current = next;
+                    setProgress(next);
+                    if (next >= 1) trigger();
+                }
+                rafId = requestAnimationFrame(tick);
             }
-            if (!explodingRef.current) rafId = requestAnimationFrame(tick);
         };
         rafId = requestAnimationFrame(tick);
 
@@ -120,7 +141,8 @@ export default function EnergyGate() {
             window.removeEventListener("wheel", onWheel);
             window.removeEventListener("touchstart", onTouchStart);
             window.removeEventListener("touchmove", onTouchMove);
-            html.style.overflow = prevOverflow;
+            html.style.overflow = prevHtmlOverflow;
+            body.style.overflow = prevBodyOverflow;
         };
         // mount-once: all mutable reads go through refs
         // eslint-disable-next-line react-hooks/exhaustive-deps
