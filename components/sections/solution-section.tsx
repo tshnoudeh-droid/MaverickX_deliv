@@ -2,22 +2,11 @@
 
 import { motion } from "framer-motion";
 
-const HIGHLIGHTS = [
-    {
-        n: "02",
-        title: "Recover, don't mine",
-        body: "Pull germanium as a byproduct of existing zinc and coal-ash processing rather than opening new extraction.",
-    },
-    {
-        n: "04",
-        title: "Model the yield",
-        body: "Projected recovery rate against the current baseline, with the assumptions shown, not hidden.",
-    },
-    {
-        n: "06",
-        title: "Know the buyer",
-        body: "Who needs this supply and why the timing matters right now.",
-    },
+const CHAIN = [
+    { n: "01", title: "Titan", body: "Dilute germanium leach liquid from zinc tailings." },
+    { n: "02", title: "MaverickX", body: "Siderophore selectively captures germanium, no harsh chemicals." },
+    { n: "03", title: "Teck Trail", body: "Upgraded concentrate feeds Teck's C$400M Trail expansion." },
+    { n: "04", title: "Corning + NVIDIA", body: "Fiber and photonics for AI data centers." },
 ];
 
 export default function SolutionSection() {
@@ -31,7 +20,7 @@ export default function SolutionSection() {
                     transition={{ duration: 0.6 }}
                     className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]"
                 >
-                    04 — Our Solution
+                    06 — Our Solution
                 </motion.p>
                 <motion.h2
                     initial={{ opacity: 0, y: 16 }}
@@ -40,7 +29,9 @@ export default function SolutionSection() {
                     transition={{ duration: 0.7, delay: 0.05 }}
                     className="mt-5 max-w-xl font-serif italic text-4xl font-medium leading-[1.05] sm:text-5xl md:text-6xl"
                 >
-                    A new path to germanium.
+                    MaverickX&apos;s siderophore grabs
+                    <br />
+                    germanium. No harsh chemicals.
                 </motion.h2>
                 <motion.p
                     initial={{ opacity: 0, y: 16 }}
@@ -49,14 +40,19 @@ export default function SolutionSection() {
                     transition={{ duration: 0.7, delay: 0.1 }}
                     className="mt-6 max-w-[58ch] text-base leading-relaxed text-[var(--mx-canvas)]/70 sm:text-lg"
                 >
-                    Placeholder proposal summary — the full case, numbers, and sourcing
-                    go here once the research is final.
+                    Siderophores bind germanium selectively even at very low
+                    concentrations <span className="text-xs">(Helmholtz GaLIophore / ERA-LEARN)</span>.
+                    MaverickX doesn&apos;t replace Teck&apos;s refinery — it upgrades Titan&apos;s
+                    dilute liquid into a concentrate Trail can take.
                 </motion.p>
 
-                <div className="mt-16 grid gap-10 sm:grid-cols-3 sm:gap-8">
-                    {HIGHLIGHTS.map((h, i) => (
+                <p className="mt-16 font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]">
+                    07 — The Chain
+                </p>
+                <div className="mt-6 grid gap-10 sm:grid-cols-4 sm:gap-8">
+                    {CHAIN.map((link, i) => (
                         <motion.div
-                            key={h.n}
+                            key={link.n}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-15% 0px" }}
@@ -64,26 +60,28 @@ export default function SolutionSection() {
                             className="border-t border-[var(--mx-canvas)]/15 pt-6"
                         >
                             <span className="font-mono text-sm text-[var(--mx-accent)]">
-                                {h.n}
+                                {link.n}
                             </span>
-                            <h3 className="mt-3 text-xl font-medium">{h.title}</h3>
-                            <p className="mt-3 text-sm leading-relaxed text-[var(--mx-canvas)]/65">
-                                {h.body}
+                            <h3 className="mt-3 text-lg font-medium">{link.title}</h3>
+                            <p className="mt-2 text-sm leading-relaxed text-[var(--mx-canvas)]/65">
+                                {link.body}
                             </p>
                         </motion.div>
                     ))}
                 </div>
 
-                <motion.a
-                    href="#"
+                <motion.p
                     initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-15% 0px" }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="mt-16 inline-flex items-center gap-2 rounded-full bg-[var(--mx-accent)] px-6 py-3 text-sm font-medium text-[var(--mx-accent-foreground)] transition-opacity hover:opacity-90"
+                    className="mt-16 max-w-[52ch] text-sm leading-relaxed text-[var(--mx-canvas)]/60"
                 >
-                    See the full research
-                </motion.a>
+                    Honest comparison: by mass, siderophore use (8–19 g per g
+                    germanium, single use — depends which siderophore) is similar to
+                    tannin (8–10 g). MaverickX has to win on selectivity and reuse,
+                    not price per kg.
+                </motion.p>
             </div>
         </section>
     );

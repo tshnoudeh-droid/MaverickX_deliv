@@ -4,12 +4,17 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import VideoPlaceholder from "@/components/video-placeholder";
 
+// Shot list for the 6 clips the real site needs (scenes 1–7 of the
+// scrollytelling script; scenes 2 and 3 share one clip here). See
+// docs/research/maverickx-germanium-plan.md for the full shot
+// descriptions.
 const REELS = [
-    { label: "Reel 01 — Field Research" },
-    { label: "Reel 02 — Lab Validation" },
-    { label: "Reel 03 — Extraction Process" },
-    { label: "Reel 04 — Site Walkthrough" },
-    { label: "Reel 05 — Team Interview" },
+    { label: "Scene 1 — The Hook" },
+    { label: "Scene 2/3 — The Metals & The Squeeze" },
+    { label: "Scene 4 — Hidden Supply" },
+    { label: "Scene 5 — The Bottleneck" },
+    { label: "Scene 6 — Our Solution" },
+    { label: "Scene 7 — The Chain" },
 ];
 
 /**
@@ -48,10 +53,10 @@ export default function HorizontalGallery() {
                 className="sticky top-0 flex h-[100svh] w-full flex-col justify-center overflow-hidden px-6 sm:px-10"
             >
                 <p className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]">
-                    03 — Inside the Research
+                    05 — The Shot List
                 </p>
                 <h2 className="mt-4 max-w-xl font-serif italic text-3xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-4xl md:text-5xl">
-                    Keep scrolling — it slides.
+                    Six clips, one per scene.
                 </h2>
 
                 <motion.div

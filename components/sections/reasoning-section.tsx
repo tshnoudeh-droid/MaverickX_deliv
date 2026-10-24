@@ -2,25 +2,28 @@
 
 import { motion } from "framer-motion";
 
-const STEPS = [
+const IDEAS = [
     {
         n: "01",
-        title: "Map the supply chain",
-        body: "Where germanium comes from today, who controls it, and where the bottlenecks sit.",
+        title: "Biofilm",
+        verdict: "Killed",
+        body: "Industry already uses glycol for this — no opening.",
     },
     {
         n: "02",
-        title: "Model extraction pathways",
-        body: "Compare recovery methods on cost, yield, and environmental footprint.",
+        title: "Desalination pretreatment",
+        verdict: "Killed",
+        body: "Our cost ran ~$55/bbl against a ~$0.20/bbl target. Not close.",
     },
     {
         n: "03",
-        title: "Validate with the research",
-        body: "Stress-test every assumption against literature and expert input before it goes in the deck.",
+        title: "Germanium",
+        verdict: "Survived",
+        body: "High value per kg, an existing buyer (Teck), and a paid-test path. The one that holds up.",
     },
 ];
 
-export default function ResearchSection() {
+export default function ReasoningSection() {
     return (
         <section className="relative bg-[var(--mx-canvas)] px-6 py-28 sm:px-10 sm:py-36">
             <div className="mx-auto max-w-5xl">
@@ -31,7 +34,7 @@ export default function ResearchSection() {
                     transition={{ duration: 0.6 }}
                     className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]"
                 >
-                    02 — Our Research
+                    08 — Our Reasoning
                 </motion.p>
                 <motion.h2
                     initial={{ opacity: 0, y: 16 }}
@@ -40,27 +43,40 @@ export default function ResearchSection() {
                     transition={{ duration: 0.7, delay: 0.05 }}
                     className="mt-5 max-w-xl font-serif italic text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl md:text-6xl"
                 >
-                    Three weeks. One answer.
+                    How we got here: 3 ideas,
+                    <br />
+                    2 killed by the numbers.
                 </motion.h2>
 
                 <div className="mt-16 grid gap-10 sm:grid-cols-3 sm:gap-8">
-                    {STEPS.map((step, i) => (
+                    {IDEAS.map((idea, i) => (
                         <motion.div
-                            key={step.n}
+                            key={idea.n}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-15% 0px" }}
                             transition={{ duration: 0.6, delay: i * 0.1 }}
                             className="border-t border-[var(--mx-ink)]/10 pt-6"
                         >
-                            <span className="font-mono text-sm text-[var(--mx-accent)]">
-                                {step.n}
-                            </span>
+                            <div className="flex items-baseline justify-between">
+                                <span className="font-mono text-sm text-[var(--mx-accent)]">
+                                    {idea.n}
+                                </span>
+                                <span
+                                    className={`font-mono text-[11px] uppercase tracking-[0.15em] ${
+                                        idea.verdict === "Killed"
+                                            ? "text-[var(--mx-faint)]"
+                                            : "text-[var(--mx-accent)]"
+                                    }`}
+                                >
+                                    {idea.verdict}
+                                </span>
+                            </div>
                             <h3 className="mt-3 text-xl font-medium text-[var(--mx-ink)]">
-                                {step.title}
+                                {idea.title}
                             </h3>
                             <p className="mt-3 text-sm leading-relaxed text-[var(--mx-faint)]">
-                                {step.body}
+                                {idea.body}
                             </p>
                         </motion.div>
                     ))}

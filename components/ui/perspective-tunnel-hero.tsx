@@ -12,15 +12,15 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 const IMAGES = [
-    { src: "https://cdn.21st.dev/assets/mirror/c3/c3fbd2afa140223999a441b32ed986f61d473930002708df805a81532a326aac.jpg", title: "Deposit I" },
-    { src: "https://cdn.21st.dev/assets/mirror/9d/9d8b2f675a5814476ada3736ce439bcda23c5c389e0ebf9b25d8a0c09f3bbcfe.jpg", title: "Extraction II" },
-    { src: "https://cdn.21st.dev/assets/mirror/8b/8bb738bf2f00d7f7ed3c3ec034adb9938ad38f4be4ac191d632a6a11ad525574.jpg", title: "Refinement III" },
-    { src: "https://cdn.21st.dev/assets/mirror/ac/ac5ac700b188d7ef16ee9dab868098b59f15c440db3f71d4e8c03262a3287577.jpg", title: "Yield IV" },
-    { src: "https://cdn.21st.dev/assets/mirror/ef/ef25eff6ce655fba459b3b7e7711524dc92499aa18f6c7dbea9a0fcc56a8f908.jpg", title: "Supply Chain V" },
-    { src: "https://cdn.21st.dev/assets/mirror/f2/f28b370a5dcbf76240f1504579c4b05fc0ff0bb990a42aff8dc2f73a5dc46072.jpg", title: "Market VI" },
-    { src: "https://cdn.21st.dev/assets/mirror/f2/f26a1eac85704dda924820392dedfb72d51d8261d35354f83b35d683617295f3.jpg", title: "Research VII" },
-    { src: "https://cdn.21st.dev/assets/mirror/77/7755d23eaaa0aa5b403343f44afa7a29b2d06d3065fe54c602b14ba01d00f2aa.jpg", title: "Team VIII" },
-    { src: "https://cdn.21st.dev/assets/mirror/65/657317761fe9058a1d43711b13c543a71eb5199b7a5d9abf4c28479674e39cf7.jpg", title: "MaverickX IX" },
+    { src: "https://cdn.21st.dev/assets/mirror/c3/c3fbd2afa140223999a441b32ed986f61d473930002708df805a81532a326aac.jpg", title: "01 — The Hook" },
+    { src: "https://cdn.21st.dev/assets/mirror/9d/9d8b2f675a5814476ada3736ce439bcda23c5c389e0ebf9b25d8a0c09f3bbcfe.jpg", title: "02 — The Metals" },
+    { src: "https://cdn.21st.dev/assets/mirror/8b/8bb738bf2f00d7f7ed3c3ec034adb9938ad38f4be4ac191d632a6a11ad525574.jpg", title: "03 — The Squeeze" },
+    { src: "https://cdn.21st.dev/assets/mirror/ac/ac5ac700b188d7ef16ee9dab868098b59f15c440db3f71d4e8c03262a3287577.jpg", title: "04 — Hidden Supply" },
+    { src: "https://cdn.21st.dev/assets/mirror/ef/ef25eff6ce655fba459b3b7e7711524dc92499aa18f6c7dbea9a0fcc56a8f908.jpg", title: "05 — The Bottleneck" },
+    { src: "https://cdn.21st.dev/assets/mirror/f2/f28b370a5dcbf76240f1504579c4b05fc0ff0bb990a42aff8dc2f73a5dc46072.jpg", title: "06 — Our Solution" },
+    { src: "https://cdn.21st.dev/assets/mirror/f2/f26a1eac85704dda924820392dedfb72d51d8261d35354f83b35d683617295f3.jpg", title: "07 — The Chain" },
+    { src: "https://cdn.21st.dev/assets/mirror/77/7755d23eaaa0aa5b403343f44afa7a29b2d06d3065fe54c602b14ba01d00f2aa.jpg", title: "08 — Our Reasoning" },
+    { src: "https://cdn.21st.dev/assets/mirror/65/657317761fe9058a1d43711b13c543a71eb5199b7a5d9abf4c28479674e39cf7.jpg", title: "09 — The Offer" },
 ];
 
 interface TunnelCardData {
@@ -214,12 +214,14 @@ export default function PerspectiveTunnelHero() {
                         MaverickX — TKS Deliverable
                     </p>
                     <h1 className="font-serif italic text-5xl sm:text-7xl md:text-8xl font-medium tracking-tight leading-[0.95] text-[var(--mx-ink)]">
-                        Germanium,
+                        AI runs on
                         <br />
-                        extracted.
+                        light and power.
                     </h1>
-                    <p className="mt-4 max-w-[36ch] text-sm sm:text-base font-light text-[var(--mx-faint)]">
-                        Scroll to move through our research and proposed solution.
+                    <p className="mt-4 max-w-[40ch] text-sm sm:text-base font-light text-[var(--mx-faint)]">
+                        MaverickX can recover germanium — a metal AI&apos;s fiber-optic
+                        networks depend on — from mine waste that&apos;s already been dug
+                        up. Scroll to see how.
                     </p>
                 </motion.div>
 
