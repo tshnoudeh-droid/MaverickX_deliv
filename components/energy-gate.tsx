@@ -23,10 +23,21 @@ const PARTICLES = Array.from({ length: 24 }, (_, i) => {
     return { x: Math.cos(angle) * (420 + (i % 3) * 90), y: Math.sin(angle) * (420 + (i % 3) * 90) };
 });
 
+// Fixed wall-clock duration of continuous scrolling needed to fill the bar.
+// Time-based (not delta-magnitude-based) so the fill rate is identical
+// across mouse wheels, trackpads, and touch — no device fills it 10x
+// faster than another.
+const CHARGE_DURATION_MS = 5000;
+// How long input can go quiet before we pause the fill (bridges the gaps
+// between individual mouse-wheel notches without feeling like idle time).
+const IDLE_GRACE_MS = 300;
+const STORAGE_KEY = "mx-energy-gate-charged";
+
 /**
- * Locks scroll on entry, converts wheel/touch deltas into charge progress
- * (0–1) instead of letting them move the page, then at 100% plays an
- * explosion and hands scroll back to the page. Skips itself entirely for
+ * Locks scroll on entry and only lets progress advance while the user is
+ * actively scrolling forward, at a fixed rate, then at 100% plays an
+ * explosion and hands scroll back to the page. Plays once per browser
+ * session (sessionStorage) and skips itself entirely for
  * prefers-reduced-motion.
  */
 export default function EnergyGate() {
@@ -40,7 +51,10 @@ export default function EnergyGate() {
     const lenis = useLenis();
 
     useEffect(() => {
-        if (reduce) {
+        const alreadyCharged =
+            typeof sessionStorage !== "undefined" &&
+            sessionStorage.getItem(STORAGE_KEY) === "1";
+        if (reduce || alreadyCharged) {
             setDone(true);
             return;
         }
@@ -50,9 +64,14 @@ export default function EnergyGate() {
         html.style.overflow = "hidden";
         lenis?.stop();
 
+        let rafId = 0;
+        let last = performance.now();
+        let activeUntil = 0;
+
         const trigger = () => {
             explodingRef.current = true;
             setExploding(true);
+            sessionStorage.setItem(STORAGE_KEY, "1");
             window.setTimeout(() => {
                 html.style.overflow = prevOverflow;
                 lenis?.start();
@@ -60,17 +79,26 @@ export default function EnergyGate() {
             }, 900);
         };
 
-        const bump = (delta: number) => {
-            if (explodingRef.current) return;
-            const next = Math.min(1, Math.max(0, progressRef.current + delta));
-            progressRef.current = next;
-            setProgress(next);
-            if (next >= 1) trigger();
+        const tick = (now: number) => {
+            const dt = now - last;
+            last = now;
+            if (!explodingRef.current && now < activeUntil) {
+                const next = Math.min(1, progressRef.current + dt / CHARGE_DURATION_MS);
+                progressRef.current = next;
+                setProgress(next);
+                if (next >= 1) trigger();
+            }
+            if (!explodingRef.current) rafId = requestAnimationFrame(tick);
+        };
+        rafId = requestAnimationFrame(tick);
+
+        const markActive = () => {
+            activeUntil = performance.now() + IDLE_GRACE_MS;
         };
 
         const onWheel = (e: WheelEvent) => {
             e.preventDefault();
-            bump(e.deltaY * 0.0012);
+            if (e.deltaY > 0) markActive();
         };
         const onTouchStart = (e: TouchEvent) => {
             touchYRef.current = e.touches[0]?.clientY ?? null;
@@ -79,7 +107,7 @@ export default function EnergyGate() {
             e.preventDefault();
             if (touchYRef.current == null) return;
             const y = e.touches[0]?.clientY ?? touchYRef.current;
-            bump((touchYRef.current - y) * 0.004);
+            if (touchYRef.current - y > 0) markActive(); // swipe up = scroll down
             touchYRef.current = y;
         };
 
@@ -88,6 +116,7 @@ export default function EnergyGate() {
         window.addEventListener("touchmove", onTouchMove, { passive: false });
 
         return () => {
+            cancelAnimationFrame(rafId);
             window.removeEventListener("wheel", onWheel);
             window.removeEventListener("touchstart", onTouchStart);
             window.removeEventListener("touchmove", onTouchMove);
