@@ -7,10 +7,12 @@ import TeamSection from "@/components/sections/team-section";
 import ClosingCta from "@/components/sections/closing-cta";
 import BackLink from "@/components/back-link";
 import LenisProvider from "@/components/lenis-provider";
+import EnergyGate from "@/components/energy-gate";
 
 export default function TunnelDemoPage() {
     return (
         <LenisProvider>
+            <EnergyGate />
             <BackLink />
             <main className="bg-[var(--mx-canvas)]">
                 <PerspectiveTunnelHero />
