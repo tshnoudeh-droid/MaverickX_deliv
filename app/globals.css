@@ -49,17 +49,19 @@
 }
 
 :root {
-  /* MaverickX immersive-experience tokens (placeholder — swap --mx-accent
-     for the real MaverickX brand color once we have it; canvas/ink stay
-     neutral off-white/near-black regardless, matching the editorial
-     reference). Scoped separately from the shadcn theme vars above so
-     swapping these never touches shadcn components. */
-  --mx-canvas: #f6f4ef;
-  --mx-canvas-dim: #ecebe4;
-  --mx-ink: #111110;
-  --mx-faint: #6f6e68;
-  --mx-accent: #c8732e;
-  --mx-accent-foreground: #fffaf2;
+  /* MaverickX brand tokens — derived from the real maverickx site
+     (black bg, white type, muted-gray secondary, no color accent).
+     Light is the inverse of their dark homepage, same family. Scoped
+     separately from the shadcn theme vars below so these never touch
+     shadcn components. Dark variants are set further down, under both
+     a prefers-color-scheme fallback and an explicit [data-theme]
+     override (see ThemeToggle). */
+  --mx-canvas: #ffffff;
+  --mx-canvas-dim: #f1f1f0;
+  --mx-ink: #0a0a0a;
+  --mx-faint: #6b6b6b;
+  --mx-accent: #6b6b6b;
+  --mx-accent-foreground: #ffffff;
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -96,6 +98,13 @@
 }
 
 .dark {
+  --mx-canvas: #0a0a0a;
+  --mx-canvas-dim: #1a1a1a;
+  --mx-ink: #ffffff;
+  --mx-faint: #9a9a9a;
+  --mx-accent: #9a9a9a;
+  --mx-accent-foreground: #0a0a0a;
+
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

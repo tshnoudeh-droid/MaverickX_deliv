@@ -24,8 +24,8 @@ export default function TunnelDemoPage() {
                 <SolutionSection />
                 <ReasoningSection />
                 <RisksSection />
-                <TeamSection />
                 <ClosingCta />
+                <TeamSection />
             </main>
         </LenisProvider>
     );
