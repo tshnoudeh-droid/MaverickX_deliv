@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import DotGrid from "@/components/dot-grid";
 
 const IDEAS = [
     {
@@ -26,6 +27,7 @@ const IDEAS = [
 export default function ReasoningSection() {
     return (
         <section className="relative bg-[var(--mx-canvas)] px-6 py-28 sm:px-10 sm:py-36">
+            <DotGrid />
             <div className="mx-auto max-w-5xl">
                 <motion.p
                     initial={{ opacity: 0, y: 12 }}

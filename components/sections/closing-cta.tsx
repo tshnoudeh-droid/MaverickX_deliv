@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import DotGrid from "@/components/dot-grid";
 
 const OFFER = [
     { when: "Now", what: "Paid 90-day lab test on Titan's waste samples", cost: "~$25–75k" },
@@ -11,6 +12,7 @@ const OFFER = [
 export default function ClosingCta() {
     return (
         <section className="relative flex flex-col items-center justify-center bg-[var(--mx-canvas)] px-6 py-28 text-center sm:px-10">
+            <DotGrid />
             <motion.p
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}

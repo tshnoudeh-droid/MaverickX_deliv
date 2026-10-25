@@ -8,6 +8,7 @@ import ReasoningSection from "@/components/sections/reasoning-section";
 import RisksSection from "@/components/sections/risks-section";
 import TeamSection from "@/components/sections/team-section";
 import ClosingCta from "@/components/sections/closing-cta";
+import AppendixLink from "@/components/sections/appendix-link";
 import BackLink from "@/components/back-link";
 import LenisProvider from "@/components/lenis-provider";
 
@@ -26,6 +27,7 @@ export default function TunnelDemoPage() {
                 <RisksSection />
                 <ClosingCta />
                 <TeamSection />
+                <AppendixLink />
             </main>
         </LenisProvider>
     );

@@ -1,9 +1,11 @@
 import Link from "next/link";
+import DotGrid from "@/components/dot-grid";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-[var(--mx-canvas)] font-sans">
-      <main className="flex flex-1 w-full max-w-xl flex-col items-center justify-center gap-8 px-6 text-center">
+    <div className="relative flex flex-col flex-1 items-center justify-center bg-[var(--mx-canvas)] font-sans">
+      <DotGrid />
+      <main className="relative flex flex-1 w-full max-w-xl flex-col items-center justify-center gap-8 px-6 text-center">
         <div className="space-y-2">
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-[var(--mx-faint)]">
             MaverickX — TKS Deliverable

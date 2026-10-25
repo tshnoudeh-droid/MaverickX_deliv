@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import VideoPlaceholder from "@/components/video-placeholder";
+import DotGrid from "@/components/dot-grid";
 
 // Shot list for the 6 clips the real site needs (scenes 1–7 of the
 // scrollytelling script; scenes 2 and 3 share one clip here). See
@@ -52,6 +53,7 @@ export default function HorizontalGallery() {
                 ref={viewportRef}
                 className="sticky top-0 flex h-[100svh] w-full flex-col justify-center overflow-hidden px-6 sm:px-10"
             >
+                <DotGrid />
                 <p className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]">
                     05 — The Shot List
                 </p>

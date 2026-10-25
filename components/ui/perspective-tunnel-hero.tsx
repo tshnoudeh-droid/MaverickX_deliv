@@ -10,6 +10,7 @@ import {
     MotionValue,
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import DotGrid from "@/components/dot-grid";
 
 const IMAGES = [
     { src: "https://cdn.21st.dev/assets/mirror/c3/c3fbd2afa140223999a441b32ed986f61d473930002708df805a81532a326aac.jpg", title: "01 — The Hook" },
@@ -197,8 +198,8 @@ export default function PerspectiveTunnelHero() {
                     transformStyle: "preserve-3d",
                 }}
             >
-                {/* Immersive Background Grid & Glow */}
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#d9d6cc_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)] opacity-70" />
+                {/* Shared dot-grid background, same everywhere on the site */}
+                <DotGrid />
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,var(--mx-accent)_0%,transparent_70%)] opacity-[0.08]" />
 
                 {/* Depth Ring Guides */}
