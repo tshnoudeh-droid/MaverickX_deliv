@@ -28,7 +28,7 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-20% 0px" }}
                     transition={{ duration: 0.7, delay: 0.05 }}
-                    className="mt-5 font-serif italic text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl md:text-6xl"
+                    className="mt-5 font-serif tracking-tight text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl md:text-6xl"
                 >
                     The US refined zero
                     <br />
@@ -57,7 +57,7 @@ export default function ProblemSection() {
                             transition={{ duration: 0.6, delay: i * 0.1 }}
                             className="border-t border-[var(--mx-ink)]/10 pt-6"
                         >
-                            <span className="font-serif italic text-3xl text-[var(--mx-ink)]">
+                            <span className="font-serif tracking-tight text-3xl text-[var(--mx-ink)]">
                                 {stat.value}
                             </span>
                             <p className="mt-2 text-sm leading-relaxed text-[var(--mx-faint)]">

@@ -1,28 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/theme-provider";
 import TopBrand from "@/components/top-brand";
 import TksMark from "@/components/tks-mark";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// maverickx.com's actual type system: Inter for body copy, Inter Tight
+// for headings. Populating the --font-sans / --font-serif / --font-mono
+// slots directly (rather than renaming every `font-serif`/`font-mono`
+// className across the site) — --font-serif now holds Inter Tight and
+// --font-mono holds Inter, matching their brand even though the slot
+// names are legacy. See globals.css for the --font-mono repoint.
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-// Editorial display serif for headline accents in the immersive experience
-// (stands in for a custom MaverickX display face, same role as the serif
-// accent in the learnwithzero.com reference).
-const fraunces = Fraunces({
+const interTight = Inter_Tight({
   variable: "--font-serif",
   subsets: ["latin"],
-  style: ["italic", "normal"],
-  axes: ["opsz", "SOFT", "WONK"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -35,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${inter.variable} ${interTight.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

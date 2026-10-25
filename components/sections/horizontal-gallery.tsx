@@ -57,7 +57,7 @@ export default function HorizontalGallery() {
                 <p className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]">
                     05 — The Shot List
                 </p>
-                <h2 className="mt-4 max-w-xl font-serif italic text-3xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-4xl md:text-5xl">
+                <h2 className="mt-4 max-w-xl font-serif tracking-tight text-3xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-4xl md:text-5xl">
                     Six clips, one per scene.
                 </h2>
 

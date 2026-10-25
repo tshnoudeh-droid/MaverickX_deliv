@@ -10,7 +10,7 @@ export default function Home() {
           <p className="text-xs font-mono uppercase tracking-[0.3em] text-[var(--mx-faint)]">
             MaverickX — TKS Deliverable
           </p>
-          <h1 className="font-serif italic text-3xl font-medium tracking-tight text-[var(--mx-ink)]">
+          <h1 className="font-serif tracking-tight text-3xl font-medium text-[var(--mx-ink)]">
             The experience
           </h1>
           <p className="text-sm text-[var(--mx-faint)]">

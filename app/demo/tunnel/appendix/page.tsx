@@ -100,7 +100,7 @@ export default function AppendixPage() {
                     <p className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--mx-accent)]">
                         Appendix
                     </p>
-                    <h1 className="mt-5 font-serif italic text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl">
+                    <h1 className="mt-5 font-serif tracking-tight text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl">
                         Every number, every source.
                     </h1>
                     <p className="mt-6 max-w-[60ch] text-base leading-relaxed text-[var(--mx-faint)]">
@@ -112,7 +112,7 @@ export default function AppendixPage() {
 
             <section className="relative px-6 pb-20 sm:px-10">
                 <div className="mx-auto max-w-4xl">
-                    <h2 className="font-serif italic text-2xl text-[var(--mx-ink)] sm:text-3xl">
+                    <h2 className="font-serif tracking-tight text-2xl text-[var(--mx-ink)] sm:text-3xl">
                         Key numbers
                     </h2>
                     <div className="mt-6 overflow-x-auto">
@@ -149,7 +149,7 @@ export default function AppendixPage() {
 
             <section className="relative px-6 pb-20 sm:px-10">
                 <div className="mx-auto max-w-4xl">
-                    <h2 className="font-serif italic text-2xl text-[var(--mx-ink)] sm:text-3xl">
+                    <h2 className="font-serif tracking-tight text-2xl text-[var(--mx-ink)] sm:text-3xl">
                         Risks and honest caveats
                     </h2>
                     <div className="mt-6 divide-y divide-[var(--mx-ink)]/10">
@@ -172,7 +172,7 @@ export default function AppendixPage() {
 
             <section className="relative px-6 pb-20 sm:px-10">
                 <div className="mx-auto max-w-4xl">
-                    <h2 className="font-serif italic text-2xl text-[var(--mx-ink)] sm:text-3xl">
+                    <h2 className="font-serif tracking-tight text-2xl text-[var(--mx-ink)] sm:text-3xl">
                         Siderophore economics (our estimate)
                     </h2>
                     <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--mx-faint)]">
@@ -222,7 +222,7 @@ export default function AppendixPage() {
 
             <section className="relative px-6 pb-20 sm:px-10">
                 <div className="mx-auto max-w-4xl">
-                    <h2 className="font-serif italic text-2xl text-[var(--mx-ink)] sm:text-3xl">
+                    <h2 className="font-serif tracking-tight text-2xl text-[var(--mx-ink)] sm:text-3xl">
                         Questions for Suman
                     </h2>
                     <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--mx-faint)]">
@@ -244,7 +244,7 @@ export default function AppendixPage() {
 
             <section className="relative px-6 pb-28 sm:px-10">
                 <div className="mx-auto max-w-4xl">
-                    <h2 className="font-serif italic text-2xl text-[var(--mx-ink)] sm:text-3xl">
+                    <h2 className="font-serif tracking-tight text-2xl text-[var(--mx-ink)] sm:text-3xl">
                         Sources
                     </h2>
                     <ul className="mt-6 columns-1 gap-x-10 text-sm leading-loose text-[var(--mx-faint)] sm:columns-2">

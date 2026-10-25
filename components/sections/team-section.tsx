@@ -30,7 +30,7 @@ export default function TeamSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-20% 0px" }}
                     transition={{ duration: 0.7, delay: 0.05 }}
-                    className="mt-5 font-serif italic text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl md:text-6xl"
+                    className="mt-5 font-serif tracking-tight text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl md:text-6xl"
                 >
                     Built by five.
                 </motion.h2>

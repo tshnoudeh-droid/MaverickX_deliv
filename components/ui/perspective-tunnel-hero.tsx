@@ -214,7 +214,7 @@ export default function PerspectiveTunnelHero() {
                     <p className="text-xs font-mono uppercase tracking-[0.4em] text-[var(--mx-accent)] mb-4">
                         MaverickX — TKS Deliverable
                     </p>
-                    <h1 className="font-serif italic text-5xl sm:text-7xl md:text-8xl font-medium tracking-tight leading-[0.95] text-[var(--mx-ink)]">
+                    <h1 className="font-serif tracking-tight text-5xl sm:text-7xl md:text-8xl font-medium leading-[0.95] text-[var(--mx-ink)]">
                         AI runs on
                         <br />
                         light and power.

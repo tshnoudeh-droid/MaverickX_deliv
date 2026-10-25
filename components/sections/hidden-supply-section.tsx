@@ -22,7 +22,7 @@ export default function HiddenSupplySection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-20% 0px" }}
                     transition={{ duration: 0.7, delay: 0.05 }}
-                    className="mt-5 font-serif italic text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl md:text-6xl"
+                    className="mt-5 font-serif tracking-tight text-4xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-5xl md:text-6xl"
                 >
                     Up to 13,000 kg a year is
                     <br />
@@ -51,7 +51,7 @@ export default function HiddenSupplySection() {
                     transition={{ duration: 0.6, delay: 0.15 }}
                     className="mt-14 rounded-2xl border border-dashed border-[var(--mx-ink)]/15 bg-[var(--mx-canvas-dim)] p-6 sm:p-8"
                 >
-                    <p className="font-serif italic text-2xl text-[var(--mx-ink)] sm:text-3xl">
+                    <p className="font-serif tracking-tight text-2xl text-[var(--mx-ink)] sm:text-3xl">
                         Two tailings ponds, more than a year of world demand.
                     </p>
                     <p className="mt-3 max-w-[56ch] text-sm leading-relaxed text-[var(--mx-faint)]">

@@ -22,7 +22,7 @@ export default function AppendixLink() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-15% 0px" }}
                 transition={{ duration: 0.7, delay: 0.05 }}
-                className="mt-5 max-w-xl font-serif italic text-3xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-4xl"
+                className="mt-5 max-w-xl font-serif tracking-tight text-3xl font-medium leading-[1.05] text-[var(--mx-ink)] sm:text-4xl"
             >
                 Every number, every source.
             </motion.h2>
