@@ -49,18 +49,17 @@
 }
 
 :root {
-  /* MaverickX brand tokens — derived from the real maverickx site
-     (black bg, white type, muted-gray secondary, no color accent).
-     Light is the inverse of their dark homepage, same family. Scoped
+  /* MaverickX brand tokens — derived from the real maverickx site and
+     logo (jobs.lever.co/maverickx): black/white monochrome base, blue
+     #5b8cc9 sampled from the logo mark as the one accent color. Light
+     is the inverse of their dark homepage, same family. Scoped
      separately from the shadcn theme vars below so these never touch
-     shadcn components. Dark variants are set further down, under both
-     a prefers-color-scheme fallback and an explicit [data-theme]
-     override (see ThemeToggle). */
+     shadcn components. Dark variant is set further down in .dark. */
   --mx-canvas: #ffffff;
   --mx-canvas-dim: #f1f1f0;
   --mx-ink: #0a0a0a;
   --mx-faint: #6b6b6b;
-  --mx-accent: #6b6b6b;
+  --mx-accent: #5b8cc9;
   --mx-accent-foreground: #ffffff;
 
   --background: oklch(1 0 0);
@@ -102,7 +101,7 @@
   --mx-canvas-dim: #1a1a1a;
   --mx-ink: #ffffff;
   --mx-faint: #9a9a9a;
-  --mx-accent: #9a9a9a;
+  --mx-accent: #5b8cc9;
   --mx-accent-foreground: #0a0a0a;
 
   --background: oklch(0.145 0 0);

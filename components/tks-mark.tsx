@@ -1,15 +1,34 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+
 /**
- * Persistent bottom-left chrome: the TKS mark. Text badge standing in
- * for the real TKS logo file — swap the span below for an <img
- * src="/brand/tks-logo.png" /> once that asset is saved into
- * public/brand/.
+ * Persistent bottom-left chrome: the TKS mark. Pulled from tks.world's
+ * live nav (inline SVG, fill="currentColor") — recolored into separate
+ * light/dark files since <img> can't inherit currentColor from the page.
  */
 export default function TksMark() {
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+
     return (
         <div className="fixed bottom-4 left-4 z-50">
-            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--mx-ink)]/10 bg-[var(--mx-canvas)]/80 text-xs font-bold italic text-[var(--mx-ink)] backdrop-blur">
-                TKS
-            </span>
+            {mounted ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    src={
+                        resolvedTheme === "dark"
+                            ? "/brand/tks-logo-dark.svg"
+                            : "/brand/tks-logo-light.svg"
+                    }
+                    alt="TKS"
+                    className="h-7 w-auto"
+                />
+            ) : (
+                <div className="h-7 w-14" aria-hidden="true" />
+            )}
         </div>
     );
 }

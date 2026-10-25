@@ -6,8 +6,9 @@ import { Moon, Sun } from "lucide-react";
 
 /**
  * Persistent top-right chrome: the MaverickX wordmark + a light/dark
- * toggle. Text-only mark for now — swap in the real logomark (the
- * connected-dots icon from maverickx's site) once that asset exists.
+ * toggle. Logo files pulled from jobs.lever.co/maverickx — the dark
+ * variant is derived (black ink recolored to white, blue kept as-is)
+ * since only one text-color version was hosted there.
  */
 export default function TopBrand() {
     const { resolvedTheme, setTheme } = useTheme();
@@ -28,9 +29,20 @@ export default function TopBrand() {
                     <Moon className="h-3.5 w-3.5" />
                 )}
             </button>
-            <span className="rounded-full border border-[var(--mx-ink)]/10 bg-[var(--mx-canvas)]/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-[var(--mx-ink)] backdrop-blur">
-                Maverick<span className="font-normal">X</span>
-            </span>
+            {mounted ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    src={
+                        resolvedTheme === "dark"
+                            ? "/brand/maverickx-logo-dark.png"
+                            : "/brand/maverickx-logo-light.png"
+                    }
+                    alt="MaverickX"
+                    className="h-6 w-auto sm:h-7"
+                />
+            ) : (
+                <div className="h-6 w-24 sm:h-7 sm:w-28" aria-hidden="true" />
+            )}
         </div>
     );
 }
