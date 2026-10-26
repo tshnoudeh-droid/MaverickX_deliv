@@ -1,5 +1,7 @@
 import Link from "next/link";
 import DotGrid from "@/components/dot-grid";
+import TopBrand from "@/components/top-brand";
+import TksMark from "@/components/tks-mark";
 
 export const metadata = {
     title: "Appendix — MaverickX",
@@ -87,6 +89,8 @@ const SOURCES = [
 export default function AppendixPage() {
     return (
         <main className="relative bg-[var(--mx-canvas)]">
+            <TopBrand />
+            <TksMark />
             <Link
                 href="/demo/tunnel"
                 className="fixed left-4 top-4 z-50 rounded-full border border-[var(--mx-ink)]/10 bg-[var(--mx-canvas)]/80 px-4 py-2 text-xs font-medium uppercase tracking-wider text-[var(--mx-ink)] backdrop-blur transition-colors hover:bg-[var(--mx-canvas-dim)]"

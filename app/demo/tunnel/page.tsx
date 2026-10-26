@@ -11,10 +11,14 @@ import ClosingCta from "@/components/sections/closing-cta";
 import AppendixLink from "@/components/sections/appendix-link";
 import BackLink from "@/components/back-link";
 import LenisProvider from "@/components/lenis-provider";
+import TopBrand from "@/components/top-brand";
+import TksMark from "@/components/tks-mark";
 
 export default function TunnelDemoPage() {
     return (
         <LenisProvider>
+            <TopBrand />
+            <TksMark />
             <BackLink />
             <main className="bg-[var(--mx-canvas)]">
                 <PerspectiveTunnelHero />

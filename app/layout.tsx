@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/theme-provider";
-import TopBrand from "@/components/top-brand";
-import TksMark from "@/components/tks-mark";
 
 // maverickx.com's actual type system: Inter for body copy, Inter Tight
 // for headings. Populating the --font-sans / --font-serif / --font-mono
@@ -36,9 +34,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${interTight.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TopBrand />
-          <TksMark />
+        {/* Spec (B3) wants a dark/deep-neutral default — defaultTheme
+            "dark" rather than "system" so the pitch site opens the way
+            it's designed, with a toggle still available. */}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           {children}
         </ThemeProvider>
       </body>
