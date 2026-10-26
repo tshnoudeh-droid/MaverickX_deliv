@@ -1,0 +1,12 @@
+/* Section layouts. Filled in during build steps 2–4. */
+
+/* step-1 preview only: removed in step 2 */
+.preview { max-width: var(--max); margin: 0 auto; padding: 48px var(--gutter) 120px; display: grid; gap: 56px; }
+.preview__video { position: relative; border-radius: var(--r-panel); overflow: hidden; aspect-ratio: 16 / 7; background: var(--dark); }
+.preview__video video { width: 100%; height: 100%; object-fit: cover; }
+.preview__video h1 { position: absolute; inset: auto 0 18% 0; text-align: center; font-size: var(--fs-hero); color: var(--on-dark); padding: 0 var(--gutter); }
+.preview__row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-top: 80px; }
+.preview__card { position: relative; aspect-ratio: 4 / 3; border-radius: var(--r-card); background: center / cover no-repeat; }
+.preview__card img { position: absolute; left: 50%; bottom: 18%; width: 72%; translate: -50% 0; }
+.preview__swatches { display: flex; gap: 12px; }
+.preview__swatches span { width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--line); }

@@ -1,0 +1,48 @@
+/* Design tokens. Our palette: warm off-white, deep slate ink, one silver-blue
+   accent for germanium. Fonts: Fraunces (display serif) + Inter (grotesk). */
+
+:root {
+  /* colour */
+  --bg: #f4f1ea;
+  --bg-deep: #ebe6dc;
+  --ink: #1f252c;
+  --ink-2: #4a535c;
+  --ink-3: #757d85;
+  --line: rgb(31 37 44 / 0.14);
+
+  --dark: #151a20;
+  --dark-2: #1d242c;
+  --on-dark: #eef0f0;
+  --on-dark-2: #aeb6bd;
+  --line-dark: rgb(238 240 240 / 0.16);
+
+  --ge: #9dbbd2; /* germanium glow, on dark */
+  --ge-ink: #3f6987; /* the same accent, dark enough for text on --bg (5.3:1) */
+  --ge-soft: rgb(157 187 210 / 0.18);
+
+  /* type */
+  --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --fs-hero: clamp(3rem, 8.4vw, 8rem);
+  --fs-h2: clamp(2.5rem, 6vw, 5.25rem);
+  --fs-h3: clamp(1.5rem, 2.4vw, 2rem);
+  --fs-stat: clamp(6rem, 22vw, 20rem);
+  --fs-lead: clamp(1.0625rem, 1.4vw, 1.25rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-label: 0.6875rem;
+  --track-label: 0.22em;
+
+  /* shape + space */
+  --r-panel: clamp(20px, 2.4vw, 32px);
+  --r-card: clamp(14px, 1.6vw, 22px);
+  --gutter: clamp(16px, 4vw, 56px);
+  --frame: clamp(8px, 1vw, 14px); /* inset around full-bleed video panels */
+  --max: 1240px;
+  --narrow: 640px;
+  --section-y: clamp(96px, 14vh, 180px);
+
+  /* motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
