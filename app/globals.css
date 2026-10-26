@@ -137,6 +137,35 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ────────────────────────────────────────────────────────────────────
+   Pitch-site theme — scoped override of the --mx-* tokens for the real
+   submission site (app/(site)/*), taken verbatim from the original
+   spec doc's own styling (its B3 "dark/deep-neutral bg, cool teal
+   accent" instantiated as real hex values). The global --mx-* tokens
+   above are untouched and keep powering /demo/tunnel and anything else
+   outside .spec-theme — this is additive, not a replacement, so it's
+   trivial to drop .spec-theme later and fall back to the MaverickX
+   brand tokens if we circle back to them.
+   ──────────────────────────────────────────────────────────────────── */
+.spec-theme {
+  --mx-canvas: #f6f7f7;
+  --mx-canvas-dim: #ffffff;
+  --mx-ink: #16201f;
+  --mx-faint: #566563;
+  --mx-accent: #0e6f6a;
+  --mx-accent-foreground: #f6f7f7;
+}
+
+.dark .spec-theme,
+[data-theme="dark"] .spec-theme {
+  --mx-canvas: #0f1615;
+  --mx-canvas-dim: #172120;
+  --mx-ink: #e6eeed;
+  --mx-faint: #9bb0ae;
+  --mx-accent: #5fd0c8;
+  --mx-accent-foreground: #0f1615;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
