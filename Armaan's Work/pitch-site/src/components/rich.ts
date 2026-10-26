@@ -4,7 +4,7 @@
  */
 
 import { SOURCES, site } from "../content";
-import type { Num, PanelId, Rich, SourceId } from "../content";
+import type { Chip, Num, PanelId, Rich, SourceId } from "../content";
 
 const PANEL_IDS: readonly string[] = ["test", "math", "next"];
 
@@ -66,6 +66,22 @@ export function renderRich(rich: Rich): DocumentFragment {
     frag.append(typeof part === "string" ? document.createTextNode(part) : renderNum(part));
   }
   return frag;
+}
+
+/** A pill. Linked when it carries a source. */
+export function chip(c: Chip): HTMLLIElement {
+  const inner = c.src
+    ? el("a", { class: "chip", ...linkTo(c.src) }, [c.label])
+    : el("span", { class: "chip", text: c.label });
+  return el("li", {}, [inner]);
+}
+
+/** Centered section header: one huge serif title, one short line under it. */
+export function secHead(id: string, title: string, sub: Rich | string): HTMLElement {
+  return el("header", { class: "sec-head" }, [
+    el("h2", { class: "serif sec-head__title reveal", id, text: title }),
+    el("p", { class: "lead sec-head__sub reveal" }, [typeof sub === "string" ? sub : renderRich(sub)]),
+  ]);
 }
 
 export function richText(rich: Rich): string {

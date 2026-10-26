@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "assets": "python3 scripts/make-placeholders.py"
+    "preview": "vite preview"
   },
   "dependencies": {
     "gsap": "^3.13.0"

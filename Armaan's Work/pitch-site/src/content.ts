@@ -6,6 +6,10 @@
  * links to a source in SOURCES, or to the panel holding our own math
  * (estimates always carry estimate: true and render "our estimate").
  *
+ * Media: every image/video slot is a `Media` with the file it expects in
+ * /public and a note on what to put there. Until the file exists, the page
+ * shows a neutral placeholder naming that file.
+ *
  * Fields marked TODO(team) are not in the doc and need a human answer.
  */
 
@@ -32,16 +36,41 @@ export interface Chip {
   src?: SourceId | PanelId;
 }
 
-export interface PeekCard {
-  id: "mica" | "molecule" | "flask";
-  label: string;
+export interface Media {
+  /** Path under /public. Replace the file, keep the name. */
+  src: string;
+  /** What belongs here. Shown on the placeholder until the file exists. */
+  note: string;
+  /** Short description for screen readers. */
+  alt: string;
+  /** Videos only: first frame, used before playback and for reduced motion. */
+  poster?: string;
+}
+
+export interface SolutionStep {
+  id: string;
   title: string;
-  line: Rich;
+  body: Rich;
   chipsLabel: string;
   chips: Chip[];
-  bg: string;
-  cutout: string;
-  alt: string;
+  image: Media;
+  /** Transparent PNG of the subject; peeks above the card's top edge. */
+  cutout: Media;
+}
+
+export interface Partner {
+  name: string;
+  role: string;
+  line: Rich;
+  image: Media;
+}
+
+export interface Phase {
+  weeks: string;
+  name: string;
+  steps: string[];
+  gate: string;
+  pass: string;
 }
 
 export interface Expert {
@@ -55,7 +84,7 @@ export interface Expert {
   context?: string;
   validates: string;
   permission: Permission;
-  img: string;
+  image: Media;
 }
 
 export type Block =
@@ -66,14 +95,6 @@ export type Block =
   | { kind: "table"; head: string[]; rows: Rich[][]; note?: Rich }
   | { kind: "gates"; phases: Phase[]; footer: string; subtitle: string };
 
-export interface Phase {
-  weeks: string;
-  name: string;
-  steps: string[];
-  gate: string;
-  pass: string;
-}
-
 export interface Panel {
   id: PanelId;
   label: string;
@@ -81,12 +102,6 @@ export interface Panel {
   teaser: string;
   open: string;
   blocks: Block[];
-}
-
-export interface Video {
-  src: string;
-  poster: string;
-  alt: string;
 }
 
 /* ============================================================== sources */
@@ -239,6 +254,7 @@ export const SOURCES = {
   },
 } as const satisfies Record<string, { label: string; url: string }>;
 
+
 /* ================================================================= site */
 
 export const site = {
@@ -249,15 +265,17 @@ export const site = {
   sourceTag: "Source",
   closePanel: "Close",
   noUrl: "Private correspondence, no public link",
+  placeholderTag: "Placeholder",
 };
 
 /* ========================================================== 1 · hero */
 
-export const hero: { video: Video; headline: string; sub: Rich } = {
+export const hero: { video: Media; headline: string; sub: Rich } = {
   video: {
     src: "/video/hero.mp4",
-    poster: "/img/posters/hero.jpg",
-    alt: "Aerial dawn shot over flat grey mine tailings ponds, descending into a single grain of layered mica with one glowing atom inside.",
+    poster: "/img/hero-poster.jpg",
+    note: "Hero loop, 6–8 s: drone over grey tailings ponds, push into one grain, end on layered mica holding one glowing atom.",
+    alt: "Aerial shot over grey mine tailings ponds, descending into a grain of mica with one glowing atom inside.",
   },
   headline: "Germanium is hiding in waste.",
   sub: [
@@ -267,35 +285,37 @@ export const hero: { video: Video; headline: string; sub: Rich } = {
   ],
 };
 
-/* ===================================================== 2 · statement */
+/* ======================================================= 2 · problem */
 
-export const statement: { video: Video; line: Rich } = {
-  video: {
-    src: "/video/statement.mp4",
-    poster: "/img/posters/statement.jpg",
-    alt: "Slow drift through deep navy space with a single cool silver-blue glow.",
-  },
-  line: [
-    "Titan is choosing a recovery partner ",
-    { t: "now", src: "titan-q2" },
-    ". China's export pause ends ",
-    { t: "Nov 27, 2026", src: "evertiq" },
-    ".",
+export const problem: { label: string; title: string; sub: Rich; chipsLabel: string; chips: Chip[] } = {
+  label: "The problem",
+  title: "Germanium is never mined on its own.",
+  sub: [
+    "It's scraped out of zinc processing with harsh chemistry, and less than ",
+    { t: "3%", src: "penn-state" },
+    " of what's in zinc ores and fly ash is ever recovered.",
+  ],
+  chipsLabel: "The squeeze",
+  chips: [
+    { label: "China: ~60% of supply", src: "skillings" },
+    { label: "US imports −67%", src: "payne" },
+    { label: "US primary refining: none", src: "mtn-allies" },
+    { label: "China's export pause ends Nov 27, 2026", src: "evertiq" },
   ],
 };
 
-/* =================================================== 3 · why it's easy */
+/* ====================================================== 3 · solution */
 
-export const easy: { label: string; title: string; sub: string; cards: PeekCard[] } = {
-  label: "Why it's easy for you",
-  title: "You've done the hard part.",
-  sub: "The hardest part of most germanium projects is getting it out of the rock, and MaverickX has already done that on a mica.",
-  cards: [
+export const solution: { label: string; title: string; oneLiner: string; steps: SolutionStep[] } = {
+  label: "Our solution",
+  title: "Our solution",
+  oneLiner:
+    "Turn Titan's dilute germanium streams into a concentrate that meets Trail's feed spec.",
+  steps: [
     {
-      id: "mica",
-      label: "01",
+      id: "leach",
       title: "Already cracked mica",
-      line: [
+      body: [
         "The germanium hides in mica. Your siderophore released ",
         { t: "98.5%", src: "suman" },
         " of the lithium from lepidolite, a mica.",
@@ -304,21 +324,51 @@ export const easy: { label: string; title: string; sub: string; cards: PeekCard[
       chips: [
         { label: "98.5% lithium from lepidolite", src: "suman" },
         { label: "Titan's Ge sits in mica", src: "titan-q1" },
+        { label: "Existing siderophore", src: "suman" },
       ],
-      bg: "/img/cards/mica-bg.jpg",
-      cutout: "/img/cards/mica-cutout.png",
-      alt: "A translucent flake of layered mica.",
+      image: {
+        src: "/img/solution/leach.jpg",
+        note: "Background photo: grey mine tailings or crushed rock, landscape.",
+        alt: "Grey mine tailings.",
+      },
+      cutout: {
+        src: "/img/solution/leach-cutout.png",
+        note: "Transparent PNG: one flake of layered mica (lepidolite), subject only.",
+        alt: "A flake of layered mica.",
+      },
     },
     {
-      id: "molecule",
-      label: "02",
-      title: "Known chemistry",
-      line: [
-        "Siderophores capture germanium, EDTA releases over ",
+      id: "capture",
+      title: "Selective capture",
+      body: [
+        "Research: the siderophore DFOB binds germanium best at acidic pH with chloride present. Iron is the main risk, so we test it first.",
+      ],
+      chipsLabel: "Evidence",
+      chips: [
+        { label: "DFOB binds Ge", src: "hzdr" },
+        { label: "~44% Ga with 53 mg/L iron", src: "iit" },
+        { label: "Selective at low concentrations", src: "era-learn" },
+      ],
+      image: {
+        src: "/img/solution/capture.jpg",
+        note: "Background photo: a dilute leach liquid or lab glassware, cool light.",
+        alt: "A dilute liquid in lab glassware.",
+      },
+      cutout: {
+        src: "/img/solution/capture-cutout.png",
+        note: "Transparent PNG: a siderophore molecule model holding one atom.",
+        alt: "A molecule model holding one atom.",
+      },
+    },
+    {
+      id: "release",
+      title: "Release and reuse",
+      body: [
+        "EDTA at pH 3.5 releases over ",
         { t: "90%", src: "hzdr" },
-        " and regenerates them, and ",
+        " of gallium and germanium and regenerates DFOB; ",
         { t: "10", src: "cordis" },
-        " reuse cycles have been shown.",
+        " capture-and-release cycles were run for gallium.",
       ],
       chipsLabel: "Evidence",
       chips: [
@@ -326,50 +376,166 @@ export const easy: { label: string; title: string; sub: string; cards: PeekCard[
         { label: "10 reuse cycles", src: "cordis" },
         { label: "pH release", src: "test" },
       ],
-      bg: "/img/cards/molecule-bg.jpg",
-      cutout: "/img/cards/molecule-cutout.png",
-      alt: "A glowing molecule holding one atom.",
+      image: {
+        src: "/img/solution/release.jpg",
+        note: "Background photo: a bench or bioreactor in MaverickX's lab.",
+        alt: "A lab bench.",
+      },
+      cutout: {
+        src: "/img/solution/release-cutout.png",
+        note: "Transparent PNG: a lab flask, subject only.",
+        alt: "A lab flask.",
+      },
     },
     {
-      id: "flask",
-      label: "03",
-      title: "A paid test",
-      line: [
-        { t: "90 days", src: "test" },
-        ", 3 gates, customer-paid, about one scientist part-time.",
+      id: "refinery",
+      title: "Feed Teck's refinery",
+      body: [
+        "MaverickX doesn't replace Teck's refinery; it upgrades Titan's dilute liquid into a concentrate Trail can take.",
       ],
-      chipsLabel: "The test",
+      chipsLabel: "Key numbers",
       chips: [
-        { label: "90 days", src: "test" },
-        { label: "3 gates", src: "test" },
-        { label: "customer-paid", src: "math" },
+        { label: "Teck's minimum feed spec", src: "marketscreener" },
+        { label: "Up to C$400M into Trail", src: "cp-trail" },
+        { label: "Up to $850M expansion", src: "teck-trail" },
       ],
-      bg: "/img/cards/flask-bg.jpg",
-      cutout: "/img/cards/flask-cutout.png",
-      alt: "A lab flask with a faint silver-blue glow.",
+      image: {
+        src: "/img/solution/refinery.jpg",
+        note: "Background photo: a smelter or refinery at dusk, landscape.",
+        alt: "A refinery.",
+      },
+      cutout: {
+        src: "/img/solution/refinery-cutout.png",
+        note: "Transparent PNG: a small vial or ingot of germanium concentrate.",
+        alt: "A vial of germanium concentrate.",
+      },
     },
   ],
 };
 
-/* ====================================================== 4 · experts */
+/* ====================================================== 4 · partners */
 
-export const experts: {
+export const partners: { label: string; title: string; oneLiner: string; people: Partner[] } = {
+  label: "Possible partners",
+  title: "Partners",
+  oneLiner: "MaverickX doesn't compete with Teck; it feeds Teck's expansion.",
+  people: [
+    {
+      name: "Titan Mining",
+      role: "The mine",
+      line: ["Up to ", { t: "13,000 kg/yr", src: "titan-teck" }, " of germanium contained in its waste."],
+      image: { src: "/img/partners/titan.jpg", note: "Titan's Empire State Mines, or its tailings ponds. Portrait.", alt: "Titan Mining's site." },
+    },
+    {
+      name: "Teck · Trail",
+      role: "The refinery",
+      line: ["Defining the minimum feed spec Trail needs from Titan's waste."],
+      image: { src: "/img/partners/teck.jpg", note: "Teck's Trail smelter. Portrait.", alt: "Teck's Trail smelter." },
+    },
+    {
+      name: "Umicore",
+      role: "Germanium refiner",
+      line: ["Asked for a call and looped in its head of technology development."],
+      image: { src: "/img/partners/umicore.jpg", note: "Germanium optics or wafers. Portrait.", alt: "Germanium optics." },
+    },
+    {
+      name: "Glencore CEZinc",
+      role: "Backup site · Quebec",
+      line: ["A backup site beyond Titan."],
+      image: { src: "/img/partners/cezinc.jpg", note: "Zinc refinery or zinc cathodes. Portrait.", alt: "A zinc refinery." },
+    },
+    {
+      name: "Winston Mine tailings",
+      role: "Backup site · Thunder Bay",
+      line: ["A backup site beyond Titan."],
+      image: { src: "/img/partners/winston.jpg", note: "Northern Ontario tailings or boreal landscape. Portrait.", alt: "Tailings near Thunder Bay." },
+    },
+    {
+      name: "Corning",
+      role: "End demand · fiber",
+      line: ["Meta's fiber deal: ", { t: "up to $6B", src: "dcd" }, " through 2030."],
+      image: { src: "/img/partners/corning.jpg", note: "Optical fiber strands with light. Portrait.", alt: "Optical fiber." },
+    },
+    {
+      name: "5N Plus",
+      role: "High-purity germanium",
+      line: [{ t: "$18.1M", src: "payne" }, " Defense Production Act award."],
+      image: { src: "/img/partners/5nplus.jpg", note: "High-purity metal or crystal. Portrait.", alt: "High-purity germanium." },
+    },
+    {
+      name: "Lattice Materials",
+      role: "Germanium optics",
+      line: [{ t: "$18.5M", src: "payne" }, " Defense Production Act award."],
+      image: { src: "/img/partners/lattice.jpg", note: "Germanium lens or infrared optic. Portrait.", alt: "A germanium lens." },
+    },
+    {
+      name: "Lawrence Livermore",
+      role: "Bench work",
+      line: ["Bioreactors for bench work."],
+      image: { src: "/img/partners/llnl.jpg", note: "Lab bioreactor. Portrait.", alt: "A lab bioreactor." },
+    },
+  ],
+};
+
+/* ================================================== 5 · how it works */
+
+export const howItWorks: {
+  label: string;
+  title: string;
+  oneLiner: string;
+  phases: Phase[];
+  rolesLabel: string;
+  roles: { who: string; does: string }[];
+  more: string;
+} = {
+  label: "How it works",
+  title: "How it works",
+  oneLiner: "90 days, three gates; stop if any fails.",
+  phases: [
+    {
+      weeks: "Weeks 1–4",
+      name: "Leach",
+      steps: ["Titan ships mica tailings", "Siderophore leach tests", "Assay Ge in the liquid"],
+      gate: "Gate 1",
+      pass: "50%+ of Ge leached out of Titan's mica",
+    },
+    {
+      weeks: "Weeks 5–8",
+      name: "Capture",
+      steps: ["Capture Ge from the leach", "Test with iron present", "Try iron removal or pH"],
+      gate: "Gate 2",
+      pass: "70%+ of dissolved Ge captured despite iron",
+    },
+    {
+      weeks: "Weeks 9–12",
+      name: "Release",
+      steps: ["Release Ge, reuse 3+ times", "Make a small concentrate", "Send it to Teck for spec"],
+      gate: "Gate 3",
+      pass: "90%+ released, 3+ reuses and Teck accepts the spec",
+    },
+  ],
+  rolesLabel: "Who does what",
+  roles: [
+    { who: "Titan", does: "Ships samples, pays the test fee, shares its mineralogy data." },
+    { who: "MaverickX", does: "Runs bench leach, capture and release tests with its existing siderophore." },
+    { who: "Teck", does: "Sets the minimum feed spec and checks the small concentrate." },
+  ],
+  more: "Why these thresholds",
+};
+
+/* ==================================================== 6 · validation */
+
+export const validation: {
   label: string;
   title: string;
   sub: Rich;
-  validatesLabel: string;
   people: Expert[];
 } = {
-  label: "What experts told us",
-  title: "Ten replied. They back the core idea.",
+  label: "Validation",
+  title: "Validation",
   sub: [
-    "We emailed more than ",
-    { t: "30", src: "next" },
-    " people across refiners, mining networks, labs and government; ",
-    { t: "10", src: "next" },
-    " replied between Oct 23 and 26.",
+    "We emailed more than 30 people across refiners, mining networks, labs and government; 10 replied between Oct 23 and 26.",
   ],
-  validatesLabel: "Validates",
   people: [
     {
       id: "umicore",
@@ -379,7 +545,7 @@ export const experts: {
       words: "We are always interested in new ways to recover metals.",
       validates: "A major germanium refiner wants to hear more",
       permission: "role-only",
-      img: "/img/experts/umicore.jpg",
+      image: { src: "/img/experts/umicore.jpg", note: "Headshot once named; until then an image of their organisation. Square.", alt: "Umicore." },
     },
     {
       id: "tischler",
@@ -390,7 +556,7 @@ export const experts: {
         "The problem is that germanium complex is highly stable. By changing pH you might be able to release it.",
       validates: "Siderophores bind germanium; release by pH, alongside EDTA",
       permission: "role-only",
-      img: "/img/experts/tischler.jpg",
+      image: { src: "/img/experts/tischler.jpg", note: "Headshot once named; until then an image of their organisation. Square.", alt: "Ruhr University Bochum." },
     },
     {
       id: "azimi",
@@ -401,7 +567,7 @@ export const experts: {
         "The potential application of siderophores for germanium recovery is certainly worth investigating.",
       validates: "The idea is credible; reuse is the key number",
       permission: "role-only",
-      img: "/img/experts/azimi.jpg",
+      image: { src: "/img/experts/azimi.jpg", note: "Headshot once named; until then an image of their organisation. Square.", alt: "University of Toronto." },
     },
     {
       id: "nyabeze",
@@ -412,7 +578,7 @@ export const experts: {
       words: "likely one of the strongest candidates",
       validates: "Trail as the right partner; a pilot checklist",
       permission: "role-only",
-      img: "/img/experts/nyabeze.jpg",
+      image: { src: "/img/experts/nyabeze.jpg", note: "Headshot once named; until then an image of their organisation. Square.", alt: "CEMI." },
     },
     {
       id: "alvin",
@@ -423,7 +589,7 @@ export const experts: {
         "It's not so much the cost of the reagent … but the over cost of the total system.",
       validates: "Judge total process cost, not just siderophore cost",
       permission: "role-only",
-      img: "/img/experts/alvin.jpg",
+      image: { src: "/img/experts/alvin.jpg", note: "Headshot once named; until then an image of their organisation. Square.", alt: "US Department of Energy." },
     },
     {
       id: "kaksonen",
@@ -434,7 +600,7 @@ export const experts: {
         "Gave the parts of an early cost model: capital, operating, processing cost per ton, minimum economic grade, sensitivity analysis.",
       validates: "The cost model to build next",
       permission: "role-only",
-      img: "/img/experts/kaksonen.jpg",
+      image: { src: "/img/experts/kaksonen.jpg", note: "Headshot once named; until then an image of their organisation. Square.", alt: "CSIRO." },
     },
     {
       id: "lange",
@@ -445,34 +611,36 @@ export const experts: {
       words: "defense.",
       validates: "Who the end buyers are",
       permission: "role-only",
-      img: "/img/experts/lange.jpg",
+      image: { src: "/img/experts/lange.jpg", note: "Headshot once named; until then an image of their organisation. Square.", alt: "Colorado School of Mines." },
     },
   ],
 };
 
-/* ===================================================== 5 · big stat */
+/* ===================================================== 7 · big stat */
 
-export const bigStat: { video: Video; stat: Num; statSuffix: string; line: Rich } = {
+export const bigStat: { video: Media; stat: Num; statSuffix: string; line: Rich } = {
   video: {
     src: "/video/stat.mp4",
-    poster: "/img/posters/stat.jpg",
-    alt: "A single silver-blue glow pulsing slowly against deep navy.",
+    poster: "/img/stat-poster.jpg",
+    note: "Background loop, 4–6 s: mica sheets peel apart as tiny molecules tug the edges; the atom drifts free.",
+    alt: "Mica sheets peeling apart as a glowing atom drifts free.",
   },
   stat: { t: "~$0", src: "math", estimate: true },
   statSuffix: "to try",
-  line: [
-    { t: "$3.9–7.8M", src: "math", estimate: true },
-    " a year if it works.",
-  ],
+  line: [{ t: "$3.9–7.8M", src: "math", estimate: true }, " a year if it works."],
 };
 
-/* ===================================================== 6 · CTA + panels */
+/* ====================================================== 8 · details */
 
-export const ctas = {
+export const details = {
   label: "The details",
   title: "Open only what you need.",
 };
 
+/* ===================================================== panels */
+
+// Panels name experts by role only (permission default). Swap names back in
+// here when a person confirms they can be quoted.
 export const panels: Panel[] = [
   /* ------------------------------------------------------------ the test */
   {
@@ -552,7 +720,7 @@ export const panels: Panel[] = [
       {
         kind: "p",
         text: [
-          "Charles Nyabeze (MICA Network) listed 10 things a startup must show before a site pilot. The 90-day test gets four MICA items it didn't cover:",
+          "The director of the MICA Network listed 10 things a startup must show before a site pilot. The 90-day test gets four MICA items it didn't cover:",
         ],
       },
       {
@@ -567,7 +735,7 @@ export const panels: Panel[] = [
       {
         kind: "p",
         text: [
-          "Release has two routes to test: EDTA at low pH (HZDR) and a simple pH shift (Tischler).",
+          "Release has two routes to test: EDTA at low pH (HZDR) and a simple pH shift (Professor, Ruhr University Bochum).",
         ],
       },
     ],
@@ -746,14 +914,14 @@ export const panels: Panel[] = [
       {
         kind: "p",
         text: [
-          "We emailed more than 30 people across refiners, mining networks, labs and government; 10 replied between Oct 23 and 26. Their answers back the core idea, add two candidate sites, and tighten the 90-day test. Two backup sites beyond Titan, from Nyabeze: Glencore's CEZinc in Quebec and the Winston Mine tailings near Thunder Bay.",
+          "We emailed more than 30 people across refiners, mining networks, labs and government; 10 replied between Oct 23 and 26. Their answers back the core idea, add two candidate sites, and tighten the 90-day test. Two backup sites beyond Titan, from the MICA Network: Glencore's CEZinc in Quebec and the Winston Mine tailings near Thunder Bay.",
         ],
       },
     ],
   },
 ];
 
-/* ======================================================== 7 · footer */
+/* ======================================================== 9 · footer */
 
 export const footer = {
   wordmark: "GE-32",
@@ -765,6 +933,7 @@ export const footer = {
     subject: "Run the test: germanium from Titan's waste",
     body: "In 90 days, at almost no net cost, MaverickX can find out whether its existing siderophore pulls germanium out of Titan's mica waste, a mineral it has already cracked.",
   },
+  ctaLine: "In 90 days, at almost no net cost.",
   sourcesLabel: "Sources",
   teamLabel: "Team",
   /** TODO(team): confirm names. From the repo README; not in the doc. */

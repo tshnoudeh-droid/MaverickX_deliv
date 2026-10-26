@@ -20,16 +20,13 @@ Every word, number, quote and source is in `src/content.ts`. Layout files contai
 
 ## Swap in real media
 
-Replace the file, keep the name:
+Drop files into `public/` with these names. Until a file exists, its slot shows a grey placeholder naming the file and what belongs there. The full list, with a note per slot, is in `src/content.ts` (every `Media` object).
 
-| File | What it is |
-| --- | --- |
-| `public/video/hero.mp4` | Hero loop: tailings pond, then mica, then one glowing atom (6–8 s) |
-| `public/video/statement.mp4` | Second full-bleed loop |
-| `public/video/stat.mp4` | Loop behind the big stat |
-| `public/img/posters/{hero,statement,stat}.jpg` | First frame of each video. Shown before playback and for reduced motion |
-| `public/img/cards/{mica,molecule,flask}-bg.jpg` | Card background photo, clipped to the card |
-| `public/img/cards/{mica,molecule,flask}-cutout.png` | Transparent cutout that peeks above the card |
-| `public/img/experts/<id>.jpg` | Expert card image |
+- `public/video/hero.mp4` + `public/img/hero-poster.jpg`
+- `public/video/stat.mp4` + `public/img/stat-poster.jpg`
+- `public/img/solution/{leach,capture,release,refinery}.jpg` (card photos, landscape)
+- `public/img/solution/{leach,capture,release,refinery}-cutout.png` (transparent PNGs that peek above each card)
+- `public/img/partners/{titan,teck,umicore,cezinc,winston,corning,5nplus,lattice,llnl}.jpg` (portrait 4:5)
+- `public/img/experts/{umicore,tischler,azimi,nyabeze,alvin,kaksonen,lange}.jpg` (square)
 
-Keep each video under ~4 MB, muted, H.264 with `+faststart`. To regenerate the placeholders: `npm run assets` (needs python3, numpy, Pillow and ffmpeg).
+Videos: muted, H.264, `+faststart`, under ~4 MB each. Reduced-motion visitors see the poster instead.
