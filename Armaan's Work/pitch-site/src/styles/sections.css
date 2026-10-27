@@ -1234,3 +1234,23 @@
     scale: none;
   }
 }
+
+/* ========================================================== main titles */
+
+/* Redaction 35 for the main titles: the hero, every section headline and the
+   big stat. Smaller headings keep Fraunces. Redaction ships one weight (400). */
+.hero__title,
+.problem__title,
+.sec-head__title,
+.stat__big {
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -0.01em;
+  line-height: 1.04;
+}
+
+.stat__big {
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}

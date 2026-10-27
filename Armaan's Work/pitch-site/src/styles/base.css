@@ -1,5 +1,15 @@
 /* Reset + shared primitives: labels, chips, number links, buttons. */
 
+/* Redaction 35 by MCKL, SIL Open Font License 1.1 (public/fonts/Redaction-OFL.txt).
+   Self-hosted: it isn't on Google Fonts. */
+@font-face {
+  font-family: "Redaction 35";
+  src: url("/fonts/redaction-35-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {
